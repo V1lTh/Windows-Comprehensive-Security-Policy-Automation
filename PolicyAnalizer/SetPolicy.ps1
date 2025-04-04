@@ -36,8 +36,8 @@ try {
         <# CLAVES DE REGISTRO OPCIONALES #>
 
             <# Auditar almacenamiento provisional de directiva de acceso central #>
-            auditpol /set /subcategory:"Central Policy Staging" /success:enable /failure:enable
-            <# Auditar aplicación generada: #>
+<#             auditpol /set /subcategory:"Central Policy Staging" /success:enable /failure:enable
+ #>            <# Auditar aplicación generada: #>
             auditpol /set /subcategory:"Application Generated" /success:enable /failure:enable
             <# Auditar colocación de paquetes de Plataforma de filtrado: #>
             auditpol /set /subcategory:"Filtering Platform Packet Drop" /success:enable /failure:enable
