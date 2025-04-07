@@ -36,39 +36,39 @@ try {
         <# CLAVES DE REGISTRO OPCIONALES #>
 
             <# Auditar almacenamiento provisional de directiva de acceso central #>
-<#             auditpol /set /subcategory:"Central Policy Staging" /success:enable /failure:enable
- #>            <# Auditar aplicación generada: #>
-            auditpol /set /subcategory:"Application Generated" /success:enable /failure:enable
+                auditpol /set /subcategory:"Central Policy Staging" /success:enable /failure:enable
+            <# Auditar aplicación generada: #>
+                auditpol /set /subcategory:"Application Generated" /success:enable /failure:enable
             <# Auditar colocación de paquetes de Plataforma de filtrado: #>
-            auditpol /set /subcategory:"Filtering Platform Packet Drop" /success:enable /failure:enable
+                auditpol /set /subcategory:"Filtering Platform Packet Drop" /success:enable /failure:enable
             <# Auditar manipulación de identificadores:#>
-            auditpol /set /subcategory:"Handle Manipulation" /success:enable /failure:enable
+                auditpol /set /subcategory:"Handle Manipulation" /success:enable /failure:enable
             <# Auditar objeto de kernel: #>
-            auditpol /set /subcategory:"Kernel Object" /success:enable /failure:enable
+                auditpol /set /subcategory:"Kernel Object" /success:enable /failure:enable
             <# Auditar recurso compartido de archivos detallado: #>
-            auditpol /set /subcategory:"Detailed File Share" /success:enable /failure:enable
+                auditpol /set /subcategory:"Detailed File Share" /success:enable /failure:enable
             <# Auditar Registro: #>
-            auditpol /set /subcategory:"Registry" /success:enable /failure:enable
+                auditpol /set /subcategory:"Registry" /success:enable /failure:enable
             <# Auditar SAM: #>
-            auditpol /set /subcategory:"SAM" /success:enable /failure:enable
+                auditpol /set /subcategory:"SAM" /success:enable /failure:enable
             <# Auditar servicios de certificación: #>
-            auditpol /set /subcategory:"Certification Services" /success:enable /failure:enable
+                auditpol /set /subcategory:"Certification Services" /success:enable /failure:enable
             <# Auditar sistema de archivos: #>
-            auditpol /set /subcategory:"File System" /success:enable /failure:enable
+                auditpol /set /subcategory:"File System" /success:enable /failure:enable
 
     <# -------------------------------------------------- #>
         <# ACCESO DS #>
         Write-Host "------------------------- DS ACCESS ------------------------- "
 
             <# Auditar acceso del servicio de directorio: - Errores #>
-            auditpol /set /subcategory:"Directory Service Access" /success:disable /failure:enable
+                auditpol /set /subcategory:"Directory Service Access" /success:disable /failure:enable
             <# Auditar cambios de servicio de directorio: - Aciertos #>
-            auditpol /set /subcategory:"Directory Service Changes" /success:enable /failure:disable
+                auditpol /set /subcategory:"Directory Service Changes" /success:enable /failure:disable
             <# OPCIONALES #>
             <# Auditar replicación de servicio de directorio: #>
-            auditpol /set /subcategory:"Directory Service Replication" /success:disable /failure:disable
+                auditpol /set /subcategory:"Directory Service Replication" /success:disable /failure:disable
             <# Auditar replicación de servicio de directorio detallada: #>
-            auditpol /set /subcategory:"Detailed Directory Service Replication" /success:disable /failure:disable
+                auditpol /set /subcategory:"Detailed Directory Service Replication" /success:disable /failure:disable
 
     <# -------------------------------------------------- #>
         <# ADMINISTRACION DE CUENTAS #>
