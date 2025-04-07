@@ -186,6 +186,30 @@ try {
     <# -------------------------------------------------- #>
         <# Privilege Rights #>
         Write-Host "------------------------- PRIVILEGE RIGHTS ------------------------- "
+    <# 
+        SIDs:
+            S-1-1-0: Everyone
+                Grupo "Everyone" o "World", se utiliza para otorgar permisos y derechos a todos los usuarios sin excepción.
+            S-1-5-6: Service
+                Grupo Service, incluye todas las cuentas de servicio que se utilizan para ejecutar servicios en el sistema.
+            S-1-5-19: LocalService
+                Cuenta LocalService. Utilizado por servicios que requieren acceso limitado al sistema local y presentan credenciales anónimas en la red.
+            S-1-5-20: NetworkService
+                Cuenta NetworkService. Utilizado por servicios que necesitan acceso autenticado a la red pero tienen privilegios limitados en el sistema local.
+            S-1-5-32-544: Administrators
+                Grupo Administrators en el dominio local. Utilizado para otorgar permisos y derechos administrativos a los usuarios que son miembros de este grupo1.
+            S-1-5-32-545: Users
+                Grupo Users en el dominio local. Utilizado para otorgar permisos y derechos básicos a los usuarios que son miembros de este grupo1.
+            S-1-5-32-551: Backup Operators
+                Grupo Backup Operators en el dominio local. Utilizado para otorgar permisos y derechos relacionados con la realización de copias de seguridad y restauración de datos1.
+            S-1-5-113: Local account
+                Cuentas locales. Se utiliza para identificar cuentas locales en el sistema. Este SID es útil para restringir el inicio de sesión en la red a cuentas locales3.
+            S-1-5-114: Local account and member of Administrators group
+                Cuentas locales que son miembros del grupo de administradores. Se utiliza para identificar cuentas locales que tienen privilegios administrativos. 
+                Este SID es útil para restringir el inicio de sesión en la red a cuentas locales en lugar de cuentas de administrador o equivalentes2.
+    #>
+        
+
         <# -- REVISAR -- #>
             # auditpol /set /subcategory:"SeTimeZonePrivilege"                /value:
             # auditpol /set /subcategory:"SeDenyInteractiveLogonRight"        /value:

@@ -1,4 +1,5 @@
-﻿    #Aplicación: Tamaño máximo del registro
+﻿try {
+    #Aplicación: Tamaño máximo del registro
     wevtutil sl Application /ms:33554432
     #Seguridad: Tamaño máximo del registro
     wevtutil sl Security /ms:16777216
@@ -32,3 +33,10 @@
     # Establecer el número de intentos fallidos antes de bloquear la cuenta
     net accounts /LockoutThreshold:$maxFailedAttempts
     net accounts /minpwage:2 /maxpwage:60 /minpwlen:10 /uniquepw:24 
+} 
+catch {
+    Write-Host "Error: $_"
+}
+finally {
+    Write-Host "OK"
+}
