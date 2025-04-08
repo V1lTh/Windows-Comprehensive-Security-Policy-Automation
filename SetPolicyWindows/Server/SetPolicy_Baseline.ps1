@@ -1,6 +1,120 @@
 try {
-    <# CLAVES DE REGISTRO QUE PIDE BASELINE SERVER 2022 #>
+        <# ACCOUNT LOGON #>
+        Write-Host "------------------------- ACCOUNT LOGON ------------------------- "
+
+            <# Credential Validation | Recommended default on Server Editions - Success #>
+                auditpol /set /subcategory:"{0CCE923F-69AE-11D9-BED3-505054503030}" /success:enable /failure:disable
+            <# Kerberos Authentication Service	    - Success and Failure #>
+                auditpol /set /subcategory:"Kerberos Authentication Service" /success:enable /failure:enable
+            <# Kerberos Service Ticket Operations	- Failure #>
+                auditpol /set /subcategory:"Kerberos Service Ticket Operations" /success:disable /failure:enable
+            <# Other Account Logon Events		    - No Auditing #>
+                auditpol /set /subcategory:"Other Account Logon Events" /success:disable /failure:disable
+
     <# -------------------------------------------------- #>
+        <# ADMINISTRACION DE CUENTAS #>
+        Write-Host "------------------------- Account Management ------------------------- "
+
+            <# Auditar administración de grupos de aplicaciones     - No Auditing #>
+                auditpol /set /subcategory:"Application Group Management" /success:disable /failure:disable
+            <#  Auditar administración de cuentas de equipo         - Aciertos #>
+                auditpol /set /subcategory:"Computer Account Management" /success:enable
+            <# Auditar administración de grupos de distribución     - No Auditing #>
+                auditpol /set /subcategory:"Distribution Group Management" /success:disable /failure:disable
+            <# Auditar otros eventos de administración de cuentas  - Aciertos #>
+                auditpol /set /subcategory:"Other Account Management Events" /success:enable
+            <# Auditar administración de grupos de seguridad       - Aciertos #>
+                auditpol /set /subcategory:"Security Group Management" /success:enable
+            <#  Auditar administración de cuentas de usuario        - Aciertos Y Errores #>
+                auditpol /set /subcategory:"User Account Management" /success:enable /failure:enable
+
+    <# -------------------------------------------------- #>
+        <# Seguimiento detallado #>
+        Write-Host "------------------------- DETAILED TRACKING ------------------------- "
+
+            <#  DPAPI Activity: Audita las actividades relacionadas con la Protección de Datos de la API (DPAPI),
+                que se utiliza para proteger datos como contraseñas y claves criptográficas - No Auditing #>
+                auditpol /set /subcategory:"DPAPI Activity" /success:disable /failure:disable
+            <# Plug and Play Events: Audita los eventos relacionados con la conexión y desconexión de dispositivos
+                PnP, como impresoras y unidades USB - Success #>
+                auditpol /set /subcategory:"Plug and Play Events" /success:enable /failure:disable
+            <# Process Creation: Audita los eventos cuando se crea un nuevo proceso en el sistema - Success #>
+                auditpol /set /subcategory:"Process Creation" /success:enable /failure:disable
+            <# Process Termination: Audita los eventos cuando se termina un proceso en el sistema - No auditing #>
+                auditpol /set /subcategory:"Process Termination" /success:disable /failure:disable
+            <# RPC Events: Audita los eventos relacionados con las llamadas a procedimientos remotos (RPC),
+                que son utilizadas para la comunicación entre procesos en diferentes sistemas - No auditing #>
+                auditpol /set /subcategory:"RPC Events" /success:disable /failure:disable
+            <# Token Right Adjusted Events: Audita los eventos cuando se ajustan los derechos de un token,
+                lo que puede incluir cambios en los privilegios de usuario - No Auditing #>
+                auditpol /set /subcategory:"Token Right Adjusted Events" /success:disable /failure:disable
+
+    <# -------------------------------------------------- #>
+        <# DS ACCESS #>
+        Write-Host "------------------------- DS ACCESS ------------------------- "
+
+            <# Auditar replicación de servicio de directorio detallada: - No auditing #>
+                auditpol /set /subcategory:"Detailed Directory Service Replication" /success:disable /failure:disable
+            <# Auditar acceso del servicio de directorio: - Errores #>
+                auditpol /set /subcategory:"Directory Service Access" /success:disable /failure:enable
+            <# Auditar cambios de servicio de directorio: - Aciertos #>
+                auditpol /set /subcategory:"Directory Service Changes" /success:enable /failure:disable
+            <# Auditar replicación de servicio de directorio: - No auditing #>
+                auditpol /set /subcategory:"Directory Service Replication" /success:disable /failure:disable
+
+    <# -------------------------------------------------- #>
+        <# EVENT AUDIT #>
+        Write-Host "------------------------- EVENT AUDIT ------------------------- "
+                <# https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/01f8e057-f6a8-4d6e-8a00-99bcd241b403 #>
+
+            <# AuditAccountLogon #>
+                auditpol /set /subcategory:"Account Logon" /success:disable /failure:disable
+            <# AuditDSAccess #>
+                auditpol /set /subcategory:"AuditDSAccess" /success:disable /failure:disable
+            <# AuditSystemEvents #>
+                auditpol /set /subcategory:"System Events" /success:disable /failure:disable
+            <# AuditAccountManagement #>
+                auditpol /set /subcategory:"Account Management" /success:disable /failure:disable
+            <# AuditProcessTracking #>
+                auditpol /set /subcategory:"Process Tracking" /success:disable /failure:disable
+            <# AuditLogonEvents #>
+                auditpol /set /subcategory:"Logon/Logoff" /success:disable /failure:disable
+            <# AuditPolicyChange #>
+                auditpol /set /subcategory:"Audit Policy Change" /success:disable /failure:disable
+            <# AuditObjectAccess #>
+                auditpol /set /subcategory:"Object Access" /success:disable /failure:disable
+            <# AuditPrivilegeUse #>
+                auditpol /set /subcategory:"Privilege Use" /success:disable /failure:disable
+
+    <# -------------------------------------------------- #>
+        <# INICIO Y CIERRE DE SESION #>
+        Write-Host "------------------------- LOGON / LOGOFF ------------------------- "
+
+        # Auditoría de pertenencia a grupos (Aciertos)
+            auditpol /set /subcategory:"Group Membership" /success:enable /failure:disable
+        # Auditar inicio de sesión especial (Aciertos)
+            auditpol /set /subcategory:"Special Logon" /success:enable /failure:disable
+        # Auditar bloqueo de cuentas (Errores)
+            auditpol /set /subcategory:"Account Lockout" /success:disable /failure:enable
+        # Notificaciones de usuario o dispositivo de auditoría
+            auditpol /set /subcategory:"User / Device Claims" /success:disable /failure:disable
+        # Auditar cierre de sesión
+            auditpol /set /subcategory:"Logoff" /success:disable /failure:disable
+        # Auditar inicio de sesión (Aciertos y errores)
+            auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+        # Auditar otros eventos de inicio y cierre de sesión (Aciertos y errores)
+            auditpol /set /subcategory:"Other Logon/Logoff Events" /success:enable /failure:enable
+        # Auditar Servidor de directivas de redes
+            auditpol /set /subcategory:"Network Policy Server" /success:disable /failure:disable
+        # Auditar modo principal de IPsec
+            auditpol /set /subcategory:"IPsec Main Mode" /success:disable /failure:disable
+        # Auditar modo rápido de IPsec
+            auditpol /set /subcategory:"IPsec Quick Mode" /success:disable /failure:disable
+        # Auditar modo extendido de IPsec
+            auditpol /set /subcategory:"IPsec Extended Mode" /success:disable /failure:disable
+
+    <# -------------------------------------------------- #>
+
         <# OBJECT ACCESS #>
         Write-Host "------------------------- OBJECT ACCESS ------------------------- "
 
@@ -57,37 +171,6 @@ try {
                 auditpol /set /subcategory:"File System" /success:enable /failure:enable
 
     <# -------------------------------------------------- #>
-        <# ACCESO DS #>
-        Write-Host "------------------------- DS ACCESS ------------------------- "
-
-            <# Auditar acceso del servicio de directorio: - Errores #>
-                auditpol /set /subcategory:"Directory Service Access" /success:disable /failure:enable
-            <# Auditar cambios de servicio de directorio: - Aciertos #>
-                auditpol /set /subcategory:"Directory Service Changes" /success:enable /failure:disable
-            <# OPCIONALES #>
-            <# Auditar replicación de servicio de directorio: #>
-                auditpol /set /subcategory:"Directory Service Replication" /success:disable /failure:disable
-            <# Auditar replicación de servicio de directorio detallada: #>
-                auditpol /set /subcategory:"Detailed Directory Service Replication" /success:disable /failure:disable
-
-    <# -------------------------------------------------- #>
-        <# ADMINISTRACION DE CUENTAS #>
-        Write-Host "------------------------- ADMINISTRACION DE CUENTAS ------------------------- "
-
-            <#  Auditar administración de cuentas de equipo         - Aciertos #>
-                auditpol /set /subcategory:"Computer Account Management" /success:enable
-            <#  Auditar administración de cuentas de usuario        - Aciertos Y Errores #>
-                auditpol /set /subcategory:"User Account Management" /success:enable /failure:enable
-            <# Auditar administración de grupos de aplicaciones #>
-                auditpol /set /subcategory:"Application Group Management" /success:disable /failure:disable
-            <# Auditar administración de grupos de distribución #>
-                auditpol /set /subcategory:"Distribution Group Management" /success:disable /failure:disable
-            <# Auditar administración de grupos de seguridad       - Aciertos #>
-                auditpol /set /subcategory:"Security Group Management" /success:enable
-            <# Auditar otros eventos de administración de cuentas  - Aciertos #>
-                auditpol /set /subcategory:"Other Account Management Events" /success:enable
-
-    <# -------------------------------------------------- #>
         Write-Host "------------------------- POLICY CHANGE ------------------------- "
         <# CAMBIO EN DIRECTIVAS  #>
 
@@ -104,70 +187,6 @@ try {
             <# Auditar otros eventos de cambio de directiva	                - Errores #>
                 auditpol /set /subcategory:"Other Policy Change Events" /success:disable /failure:enable
 
-    <# -------------------------------------------------- #>
-    Write-Host "------------------------- EVENT AUDIT ------------------------- "
-        <# EVENT AUDIT #>
-                <# https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/01f8e057-f6a8-4d6e-8a00-99bcd241b403 #>
-
-            <# AuditAccountLogon #>
-                <# auditpol /set /subcategory:"Account Logon" /success:disable /failure:disable #>
-            <# AuditDSAccess #>
-                <# auditpol /set /subcategory:"AuditDSAccess" /success:disable /failure:disable #>
-            <# AuditSystemEvents #>
-                <# auditpol /set /subcategory:"System Events" /success:disable /failure:disable #>
-            <# AuditAccountManagement #>
-                <# auditpol /set /subcategory:"Account Management" /success:disable /failure:disable #>
-            <# AuditProcessTracking #>
-                <# auditpol /set /subcategory:"Process Tracking" /success:disable /failure:disable #>
-            <# AuditLogonEvents #>
-                <# auditpol /set /subcategory:"Logon/Logoff" /success:disable /failure:disable #>
-            <# AuditPolicyChange #>
-                <# auditpol /set /subcategory:"Audit Policy Change" /success:disable /failure:disable #>
-            <# AuditObjectAccess #>
-                <# auditpol /set /subcategory:"Object Access" /success:disable /failure:disable #>
-            <# AuditPrivilegeUse #>
-                <# auditpol /set /subcategory:"Privilege Use" /success:disable /failure:disable #>
-
-
-    <# -------------------------------------------------- #>
-        <# ACCOUNT LOGON #>
-        Write-Host "------------------------- ACCOUNT LOGON ------------------------- "
-
-            <# Credential Validation #>
-                auditpol /set /subcategory:"{0CCE923F-69AE-11D9-BED3-505054503030}" /success:disable /failure:disable
-            <# Kerberos Service Ticket Operations	- Failure #>
-                auditpol /set /subcategory:"Kerberos Service Ticket Operations" /success:disable /failure:enable
-            <# Other Account Logon Events		    - No Auditing #>
-                auditpol /set /subcategory:"Other Account Logon Events" /success:disable /failure:disable
-            <# Kerberos Authentication Service	    - Success and Failure #>
-                auditpol /set /subcategory:"Kerberos Authentication Service" /success:enable /failure:enable
-
-    <# -------------------------------------------------- #>
-        <# INICIO Y CIERRE DE SESION #>
-        Write-Host "------------------------- INICIO Y CIERRE DE SESION ------------------------- "
-
-        # Auditoría de pertenencia a grupos (Aciertos)
-            auditpol /set /subcategory:"Group Membership" /success:enable /failure:disable
-        # Auditar inicio de sesión especial (Aciertos)
-            auditpol /set /subcategory:"Special Logon" /success:enable /failure:disable
-        # Auditar bloqueo de cuentas (Errores)
-            auditpol /set /subcategory:"Account Lockout" /success:disable /failure:enable
-        # Notificaciones de usuario o dispositivo de auditoría
-            auditpol /set /subcategory:"User / Device Claims" /success:disable /failure:disable
-        # Auditar cierre de sesión
-            auditpol /set /subcategory:"Logoff" /success:disable /failure:disable
-        # Auditar inicio de sesión (Aciertos y errores)
-            auditpol /set /subcategory:"Logon" /success:enable /failure:enable
-        # Auditar otros eventos de inicio y cierre de sesión (Aciertos y errores)
-            auditpol /set /subcategory:"Other Logon/Logoff Events" /success:enable /failure:enable
-        # Auditar Servidor de directivas de redes
-            auditpol /set /subcategory:"Network Policy Server" /success:disable /failure:disable
-        # Auditar modo principal de IPsec
-            auditpol /set /subcategory:"IPsec Main Mode" /success:disable /failure:disable
-        # Auditar modo rápido de IPsec
-            auditpol /set /subcategory:"IPsec Quick Mode" /success:disable /failure:disable
-        # Auditar modo extendido de IPsec
-            auditpol /set /subcategory:"IPsec Extended Mode" /success:disable /failure:disable
 
     <# -------------------------------------------------- #>
         <# INICIO Y CIERRE DE SESION #>
@@ -258,17 +277,7 @@ try {
             # auditpol /set /subcategory:"SeServiceLogonRight" /value:
 
     <# -------------------------------------------------- #>
-        <# Seguimiento detallado #>
-        Write-Host "------------------------- Seguimiento detallado ------------------------- "
-            auditpol /set /subcategory:"DPAPI Activity" /success:disable /failure:disable
-            auditpol /set /subcategory:"Token Right Adjusted Events" /success:disable /failure:disable
-            auditpol /set /subcategory:"RPC Events" /success:disable /failure:disable
-            auditpol /set /subcategory:"Plug and Play Events" /success:enable /failure:disable
-            auditpol /set /subcategory:"Process Termination" /success:disable /failure:disable
-            auditpol /set /subcategory:"Process Creation" /success:enable /failure:disable
 
-
-    <# -------------------------------------------------- #>
         <# Service General Setting #>
         Write-Host "------------------------- Service General Setting ------------------------- "
         <# -- REVISAR -- #>
