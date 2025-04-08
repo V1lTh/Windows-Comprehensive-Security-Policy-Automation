@@ -49,7 +49,7 @@ while ($continue) {
             }
         }
     <# SPLIT POLICYRULES #>
-            <# ---------------- REVISAR NO FUNCIONA -------------  #>
+            <# ---------------- REVISAR, NO FUNCIONA -------------  #>
             <# "$split" {
                 clear-host
                 Write-Host ""
