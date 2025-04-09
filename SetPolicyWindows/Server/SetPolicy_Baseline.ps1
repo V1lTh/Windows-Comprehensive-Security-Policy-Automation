@@ -67,24 +67,24 @@ try {
         Write-Host "------------------------- EVENT AUDIT ------------------------- "
                 <# https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/01f8e057-f6a8-4d6e-8a00-99bcd241b403 #>
 
-            <# AuditAccountLogon #>
-                auditpol /set /subcategory:"Account Logon" /success:disable /failure:disable
-            <# AuditDSAccess #>
-                auditpol /set /subcategory:"AuditDSAccess" /success:disable /failure:disable
-            <# AuditSystemEvents #>
-                auditpol /set /subcategory:"System Events" /success:disable /failure:disable
-            <# AuditAccountManagement #>
-                auditpol /set /subcategory:"Account Management" /success:disable /failure:disable
-            <# AuditProcessTracking #>
-                auditpol /set /subcategory:"Process Tracking" /success:disable /failure:disable
-            <# AuditLogonEvents #>
-                auditpol /set /subcategory:"Logon/Logoff" /success:disable /failure:disable
-            <# AuditPolicyChange #>
-                auditpol /set /subcategory:"Audit Policy Change" /success:disable /failure:disable
-            <# AuditObjectAccess #>
-                auditpol /set /subcategory:"Object Access" /success:disable /failure:disable
-            <# AuditPrivilegeUse #>
-                auditpol /set /subcategory:"Privilege Use" /success:disable /failure:disable
+            # <# AuditAccountLogon #>
+            #     auditpol /set /subcategory:"Account Logon" /success:disable /failure:disable
+            # <# AuditDSAccess #>
+            #     auditpol /set /subcategory:"AuditDSAccess" /success:disable /failure:disable
+            # <# AuditSystemEvents #>
+            #     auditpol /set /subcategory:"System Events" /success:disable /failure:disable
+            # <# AuditAccountManagement #>
+            #     auditpol /set /subcategory:"Account Management" /success:disable /failure:disable
+            # <# AuditProcessTracking #>
+            #     auditpol /set /subcategory:"Process Tracking" /success:disable /failure:disable
+            # <# AuditLogonEvents #>
+            #     auditpol /set /subcategory:"Logon/Logoff" /success:disable /failure:disable
+            # <# AuditPolicyChange #>
+            #     auditpol /set /subcategory:"Audit Policy Change" /success:disable /failure:disable
+            # <# AuditObjectAccess #>
+            #     auditpol /set /subcategory:"Object Access" /success:disable /failure:disable
+            # <# AuditPrivilegeUse #>
+            #     auditpol /set /subcategory:"Privilege Use" /success:disable /failure:disable
 
     <# -------------------------------------------------- #>
         <# INICIO Y CIERRE DE SESION #>
@@ -146,9 +146,6 @@ try {
                 auditpol /set /subcategory:"Other Object Access Events" /success:enable /failure:enable
             # Kernel Object
                 auditpol /set /subcategory:"Kernel Object" /success:enable /failure:enable
-
-        <# CLAVES DE REGISTRO OPCIONALES #>
-
             <# Auditar almacenamiento provisional de directiva de acceso central #>
                 auditpol /set /subcategory:"Central Policy Staging" /success:enable /failure:enable
             <# Auditar aplicación generada: #>
@@ -169,6 +166,18 @@ try {
                 auditpol /set /subcategory:"Certification Services" /success:enable /failure:enable
             <# Auditar sistema de archivos: #>
                 auditpol /set /subcategory:"File System" /success:enable /failure:enable
+
+    <# -------------------------------------------------- #>
+        Write-Host "------------------------- OPTIONS ------------------------- "
+        <# CAMBIO EN DIRECTIVAS  #>
+                <# -- REVISAR -- #>
+
+        <#
+            Option - AuditBaseDirectories	Option:AuditBaseDirectories		Disabled
+            Option - AuditBaseObjects	    Option:AuditBaseObjects		    Disabled
+            Option - CrashOnAuditFail	    Option:CrashOnAuditFail		    Disabled
+            Option - FullPrivilegeAuditing	Option:FullPrivilegeAuditing	Disabled
+        #>
 
     <# -------------------------------------------------- #>
         Write-Host "------------------------- POLICY CHANGE ------------------------- "
@@ -204,93 +213,128 @@ try {
 
     <# -------------------------------------------------- #>
         <# Privilege Rights #>
+try {
         Write-Host "------------------------- PRIVILEGE RIGHTS ------------------------- "
-    <# 
+    <#
         SIDs:
-            S-1-1-0: Everyone
+            *S-1-1-0: Everyone
                 Grupo "Everyone" o "World", se utiliza para otorgar permisos y derechos a todos los usuarios sin excepción.
-            S-1-5-6: Service
+            *S-1-5-6: Service
                 Grupo Service, incluye todas las cuentas de servicio que se utilizan para ejecutar servicios en el sistema.
-            S-1-5-19: LocalService
+            *S-1-5-19: LocalService
                 Cuenta LocalService. Utilizado por servicios que requieren acceso limitado al sistema local y presentan credenciales anónimas en la red.
-            S-1-5-20: NetworkService
+            *S-1-5-20: NetworkService
                 Cuenta NetworkService. Utilizado por servicios que necesitan acceso autenticado a la red pero tienen privilegios limitados en el sistema local.
-            S-1-5-32-544: Administrators
+            *S-1-5-32-544: Administrators
                 Grupo Administrators en el dominio local. Utilizado para otorgar permisos y derechos administrativos a los usuarios que son miembros de este grupo1.
-            S-1-5-32-545: Users
+            *S-1-5-32-545: Users
                 Grupo Users en el dominio local. Utilizado para otorgar permisos y derechos básicos a los usuarios que son miembros de este grupo1.
-            S-1-5-32-551: Backup Operators
+            *S-1-5-32-551: Backup Operators
                 Grupo Backup Operators en el dominio local. Utilizado para otorgar permisos y derechos relacionados con la realización de copias de seguridad y restauración de datos1.
-            S-1-5-113: Local account
+            *S-1-5-113: Local account
                 Cuentas locales. Se utiliza para identificar cuentas locales en el sistema. Este SID es útil para restringir el inicio de sesión en la red a cuentas locales3.
-            S-1-5-114: Local account and member of Administrators group
-                Cuentas locales que son miembros del grupo de administradores. Se utiliza para identificar cuentas locales que tienen privilegios administrativos. 
+            *S-1-5-114: Local account and member of Administrators group
+                Cuentas locales que son miembros del grupo de administradores. Se utiliza para identificar cuentas locales que tienen privilegios administrativos.
                 Este SID es útil para restringir el inicio de sesión en la red a cuentas locales en lugar de cuentas de administrador o equivalentes2.
     #>
-        
+
 
         <# -- REVISAR -- #>
-            # auditpol /set /subcategory:"SeTimeZonePrivilege"                /value:
-            # auditpol /set /subcategory:"SeDenyInteractiveLogonRight"        /value:
-            # auditpol /set /subcategory:"SeDenyServiceLogonRight"            /value:
-            # auditpol /set /subcategory:"SeUndockPrivilege"                  /value:
-            # auditpol /set /subcategory:"SeTrustedCredManAccessPrivilege"    /value:
-            # auditpol /set /subcategory:"SeDenyBatchLogonRight"              /value:
-            # auditpol /set /subcategory:"SeDelegateSessionUserImpersonatePrivilege" /value:
-            # auditpol /set /subcategory:"SeDebugPrivilege"                   /value:
-            # auditpol /set /subcategory:"SeCreateTokenPrivilege"             /value:
-            # auditpol /set /subcategory:"SeCreateSymbolicLinkPrivilege"      /value:
-            # auditpol /set /subcategory:"SeCreatePermanentPrivilege"         /value:
-                # auditpol /set /subcategory:"SeCreatePagefilePrivilege"          /value:'*S-1-5-32-544'
-                # auditpol /set /subcategory:"SeCreateGlobalPrivilege"            /value:'*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6'
-            # auditpol /set /subcategory:"SeChangeNotifyPrivilege"            /value:
-            # auditpol /set /subcategory:"SeBatchLogonRight" /value:
-                # auditpol /set /subcategory:"SeBackupPrivilege" /value:'*S-1-5-32-544'
-            # auditpol /set /subcategory:"SeAuditPrivilege" /value:
-            # auditpol /set /subcategory:"SeAssignPrimaryTokenPrivilege" /value:
-            # auditpol /set /subcategory:"SeEnableDelegationPrivilege" /value:***CONFLICT***
-            # auditpol /set /subcategory:"SeMachineAccountPrivilege" /value:
-            # auditpol /set /subcategory:"SeTcbPrivilege" /value:
-                # auditpol /set /subcategory:"SeManageVolumePrivilege" /value:'*S-1-5-32-544'
-            # auditpol /set /subcategory:"SeLockMemoryPrivilege" /value:
-            # auditpol /set /subcategory:"SeSystemProfilePrivilege" /value:
-                # auditpol /set /subcategory:"SeDenyNetworkLogonRight" /value:'*S-1-5-114'
-                # auditpol /set /subcategory:"SeDenyRemoteInteractiveLogonRight" /value:'*S-1-5-113'
-                # auditpol /set /subcategory:"SeTakeOwnershipPrivilege" /value:*S-1-5-32-544
-            # auditpol /set /subcategory:"SeSyncAgentPrivilege" /value:
-                # auditpol /set /subcategory:"SeImpersonatePrivilege" /value:*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6
-            # auditpol /set /subcategory:"SeIncreaseBasePriorityPrivilege" /value:
-            # auditpol /set /subcategory:"SeIncreaseQuotaPrivilege" /value:
-            # auditpol /set /subcategory:"SeIncreaseWorkingSetPrivilege" /value:
-                # auditpol /set /subcategory:"SeInteractiveLogonRight" /value:*S-1-5-32-544
-                # auditpol /set /subcategory:"SeLoadDriverPrivilege" /value:*S-1-5-32-544
-            # auditpol /set /subcategory:"SeNetworkLogonRight" /value:***CONFLICT***
-                # auditpol /set /subcategory:"SeSystemEnvironmentPrivilege" /value:*S-1-5-32-544
-            # auditpol /set /subcategory:"SeSystemtimePrivilege" /value:
-            # auditpol /set /subcategory:"SeShutdownPrivilege" /value:
-                # auditpol /set /subcategory:"SeRemoteInteractiveLogonRight" /value:*S-1-5-32-544
-                # auditpol /set /subcategory:"SeProfileSingleProcessPrivilege" /value:*S-1-5-32-544
-            # auditpol /set /subcategory:"SeRelabelPrivilege" /value:
-                # auditpol /set /subcategory:"SeRestorePrivilege" /value:*S-1-5-32-544
-                # auditpol /set /subcategory:"SeRemoteShutdownPrivilege" /value:*S-1-5-32-544
-                # auditpol /set /subcategory:"SeSecurityPrivilege" /value:*S-1-5-32-544
-            # auditpol /set /subcategory:"SeServiceLogonRight" /value:
+
+# Definir las políticas y sus valores en un array
+$policies = @(
+    # @{ Name = "SeTcbPrivilege"; Value = "" },
+    # @{ Name = "SeTimeZonePrivilege"; Value = "" },
+    # @{ Name = "SeUndockPrivilege"; Value = "" },
+    # @{ Name = "SeTrustedCredManAccessPrivilege"; Value = "" },
+    @{ Name = "SeTakeOwnershipPrivilege"; Value = "*S-1-5-32-544" },
+    @{ Name = "SeSecurityPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeCreateSymbolicLinkPrivilege"; Value = "" },
+    @{ Name = "SeRestorePrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeCreatePermanentPrivilege"; Value = "" },
+    @{ Name = "SeCreatePagefilePrivilege"; Value = "*S-1-5-32-544" },
+    @{ Name = "SeCreateGlobalPrivilege"; Value = "*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6" },
+    # @{ Name = "SeChangeNotifyPrivilege"; Value = "" },
+    # @{ Name = "SeBatchLogonRight"; Value = "" },
+    @{ Name = "SeBackupPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeAuditPrivilege"; Value = "" },
+    # @{ Name = "SeAssignPrimaryTokenPrivilege"; Value = "" },
+    # @{ Name = "SeDenyServiceLogonRight"; Value = "" },
+    # @{ Name = "SeIncreaseWorkingSetPrivilege"; Value = "" }
+    # @{ Name = "SeNetworkLogonRight"; Value = "" }, # Revisar
+    @{ Name = "SeInteractiveLogonRight"; Value = "*S-1-5-32-544" },
+    @{ Name = "SeProfileSingleProcessPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeRelabelPrivilege"; Value = "" },
+    # @{ Name = "SeCreateTokenPrivilege"; Value = "" },
+    @{ Name = "SeDebugPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeDelegateSessionUserImpersonatePrivilege"; Value = "" },
+    # @{ Name = "SeDenyBatchLogonRight"; Value = "" },
+    # @{ Name = "SeDenyInteractiveLogonRight"; Value = "" }
+    @{ Name = "SeDenyNetworkLogonRight"; Value = "*S-1-5-114" },
+    @{ Name = "SeDenyRemoteInteractiveLogonRight"; Value = "*S-1-5-113" },
+    # @{ Name = "SeIncreaseBasePriorityPrivilege"; Value = "" },
+    # @{ Name = "SeEnableDelegationPrivilege"; Value = "" }, # Revisar
+    @{ Name = "SeImpersonatePrivilege"; Value = "*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6" },
+    @{ Name = "SeRemoteShutdownPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeIncreaseQuotaPrivilege"; Value = "" },
+    # @{ Name = "SeMachineAccountPrivilege"; Value = "" },
+    @{ Name = "SeRemoteInteractiveLogonRight"; Value = "*S-1-5-32-544" },
+    @{ Name = "SeLoadDriverPrivilege"; Value = "*S-1-5-32-544" },
+    # @{ Name = "SeLockMemoryPrivilege"; Value = "" },
+    # @{ Name = "SeSystemtimePrivilege"; Value = "" },
+    @{ Name = "SeSystemEnvironmentPrivilege"; Value = "*S-1-5-32-544" },
+    @{ Name = "SeManageVolumePrivilege"; Value = "*S-1-5-32-544" }
+    # @{ Name = "SeSystemProfilePrivilege"; Value = "" },
+    # @{ Name = "SeSyncAgentPrivilege"; Value = "" },
+    # @{ Name = "SeShutdownPrivilege"; Value = "" },
+    # @{ Name = "SeServiceLogonRight"; Value = "" },
+
+
+
+# Crear el contenido del archivo .inf
+        $infContent = @"
+        [Unicode]
+        Unicode=yes
+        [System Access]
+        [Event Audit]
+        [Registry Values]
+        [Privilege Rights]
+"@
+
+        foreach ($policy in $policies) {
+            $infContent += "$($policy.Name) = $($policy.Value)`r`n"
+        }
+        $infFilePath = "C:\temp\policies.inf"
+        $infContent | Out-File -FilePath $infFilePath -Encoding ASCII -Force
+        secedit.exe /configure /db secedit.sdb /cfg $infFilePath /areas USER_RIGHTS
+
+)
+
+}
+catch {
+    Write-Host $_ -ForegroundColor Red
+}
+    <# -------------------------------------------------- #>
+        <# PRIVILEGE USE - VERY HIGH #>
+        Write-Host "------------------------- Privilege Use ------------------------- "
+
+        # Desactivar auditoría de uso de privilegios no sensibles
+    #        auditpol /set /subcategory:"Non Sensitive Privilege Use" /success:disable /failure:disable
+
+        # Desactivar auditoría de uso de privilegios sensibles
+    #        auditpol /set /subcategory:"Sensitive Privilege Use" /success:enable /failure:enable
+
+        # Desactivar auditoría de otros eventos de uso de privilegios
+    #        auditpol /set /subcategory:"Other Privilege Use Events" /success:disable /failure:disable
 
     <# -------------------------------------------------- #>
 
         <# Service General Setting #>
         Write-Host "------------------------- Service General Setting ------------------------- "
-        <# -- REVISAR -- #>
                 <# https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/40024ae3-c3b8-45db-9081-c4dc3684f9f7 #>
             # Service General Setting - AppIDSvc
-                # Define el nombre del servicio y el tipo de inicio
 
-                    <# $serviceName = "AppIDSvc"
-                    $startupType = "Automatic"
-                    Set-Service -Name $serviceName -StartupType $startupType
-                    $aclString = "D:(A;;RPWPCCDCLCSWRCWDWOGA;;;S-1-0-0)"
-                    $service = Get-WmiObject -Class Win32_Service -Filter "Name='$serviceName'"
-                    $service.Change($null, $null, $null, $null, $null, $null, $null, $null, $aclString) #>
+                    sc.exe config appidsvc start=auto
 
     <# -------------------------------------------------- #>
         <# Sistema #>
@@ -309,7 +353,73 @@ try {
 
 
     <# -------------------------------------------------- #>
-        <# Sistema #>
+
+            $registryPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Setup"
+                    Write-Host " ------------------------- $registryPath ------------------------- "
+
+        if (-Not (Test-Path $registryPath)) {
+            New-Item -Path $registryPath -Force
+        }
+        # Set-ItemProperty -Path $registryPath -Name "SetCommand" -Value "0" -Type DWord
+        # Set-ItemProperty -Path $registryPath -Name "SecurityLevel" -Value "0" -Type DWord
+
+
+            $registryPath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+                    Write-Host " ------------------------- $registryPath ------------------------- "
+        if (-Not (Test-Path $registryPath)) {
+            New-Item -Path $registryPath -Force
+        }
+        # Set-ItemProperty -Path $registryPath -Name "ForceUnlockLogon" -Value "0" -Type DWord
+        Set-ItemProperty -Path $registryPath -Name "ScRemoveOption" -Value "1" -Type DWord
+        # Set-ItemProperty -Path $registryPath -Name "PasswordExpiryWarning" -Value "5" -Type DWord
+
+
+            $registryPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+                    Write-Host " ------------------------- $registryPath ------------------------- "
+        if (-Not (Test-Path $registryPath)) {
+                    New-Item -Path $registryPath -Force
+        }
+        Set-ItemProperty -Path $registryPath -Name "NoAutorun" -Value "1" -Type DWord
+        Set-ItemProperty -Path $registryPath -Name "NoDriveTypeAutoRun" -Value "255" -Type DWord
+
+
+            $registryPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Ext"
+                    Write-Host " ------------------------- $registryPath ------------------------- "
+        if (-Not (Test-Path $registryPath)) {
+                    New-Item -Path $registryPath -Force
+        }
+        Set-ItemProperty -Path $registryPath -Name "RunThisTimeEnabled" -Value "0" -Type DWord
+        Set-ItemProperty -Path $registryPath -Name "VersionCheckEnabled" -Value "1" -Type DWord
+
+
+$policies = @(
+    $Path = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System"
+        @{ registryPath = "$Path"; Name = "FilterAdministratorToken"; Value = "1" },
+        @{ registryPath = "$Path"; Name = "InactivityTimeoutSecs"; Value = "900" },
+        @{ registryPath = "$Path"; Name = "ConsentPromptBehaviorAdmin"; Value = "2" },
+        # @{ registryPath = "$Path"; Name = "DisableCAD"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "ValidateAdminCodeSignatures"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "UndockWithoutLogon"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "ShutdownWithoutLogon"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "ScForceOption"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "PromptOnSecureDesktop"; Value = "" },
+        @{ registryPath = "$Path"; Name = "LocalAccountTokenFilterPolicy"; Value = "0" },
+        # @{ registryPath = "$Path"; Name = "LegalNoticeText"; Value = "" },
+        # @{ registryPath = "$Path"; Name = "LegalNoticeCaption"; Value = "" },
+        @{ registryPath = "$Path"; Name = "EnableLUA"; Value = "1" },
+        # @{ registryPath = "$Path"; Name = "DontDisplayLastUserName"; Value = "" },
+        @{ registryPath = "$Path"; Name = "EnableVirtualization"; Value = "1" },
+        @{ registryPath = "$Path"; Name = "ConsentPromptBehaviorUser"; Value = "0" },
+        @{ registryPath = "$Path"; Name = "DisableAutomaticRestartSignOn"; Value = "1" },
+        @{ registryPath = "$Path"; Name = "EnableInstallerDetection"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "EnableUIADesktopToggle"; Value = "0" }
+        @{ registryPath = "$Path"; Name = "EnableUIADesktopToggle"; Value = "1" }
+    $Path = "HKLM:Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters"
+        @{ registryPath = "$Path"; Name = "AllowEncryptionOracle"; Value = "0" }
+    $Path = "HKLM:Software\Policies\Microsoft Services\AdmPwd"
+
+
+)
         Write-Host "------------------------- HKLM - WINDOWS NT  ------------------------- "
 
         # Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole
