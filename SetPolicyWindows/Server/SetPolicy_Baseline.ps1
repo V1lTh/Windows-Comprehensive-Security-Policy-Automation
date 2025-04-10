@@ -216,7 +216,9 @@ try {
 try {
         Write-Host "------------------------- PRIVILEGE RIGHTS ------------------------- "
     <#
-        SIDs:
+        SIDs: SID se usa para identificar de forma única una entidad de seguridad o un grupo de seguridad.
+                Las entidades de seguridad pueden representar cualquier entidad que el sistema operativo pueda autenticar.
+
             *S-1-1-0: Everyone
                 Grupo "Everyone" o "World", se utiliza para otorgar permisos y derechos a todos los usuarios sin excepción.
             *S-1-5-6: Service
@@ -237,9 +239,6 @@ try {
                 Cuentas locales que son miembros del grupo de administradores. Se utiliza para identificar cuentas locales que tienen privilegios administrativos.
                 Este SID es útil para restringir el inicio de sesión en la red a cuentas locales en lugar de cuentas de administrador o equivalentes2.
     #>
-
-
-        <# -- REVISAR -- #>
 
 # Definir las políticas y sus valores en un array
 $policies = @(
@@ -393,6 +392,7 @@ catch {
 
 
 $policies = @(
+
     $Path = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System"
         @{ registryPath = "$Path"; Name = "FilterAdministratorToken"; Value = "1" },
         @{ registryPath = "$Path"; Name = "InactivityTimeoutSecs"; Value = "900" },
@@ -414,9 +414,126 @@ $policies = @(
         @{ registryPath = "$Path"; Name = "EnableInstallerDetection"; Value = "1" }
         # @{ registryPath = "$Path"; Name = "EnableUIADesktopToggle"; Value = "0" }
         @{ registryPath = "$Path"; Name = "EnableUIADesktopToggle"; Value = "1" }
+
     $Path = "HKLM:Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters"
         @{ registryPath = "$Path"; Name = "AllowEncryptionOracle"; Value = "0" }
+
     $Path = "HKLM:Software\Policies\Microsoft Services\AdmPwd"
+        @{ registryPath = "$Path"; Name = "AdmPwdEnabled"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Biometrics\FacialFeatures"
+        @{ registryPath = "$Path"; Name = "EnhancedAntiSpoofing"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Control Panel"
+        @{ registryPath = "$Path"; Name = "FormSuggest Passwords"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Download"
+        @{ registryPath = "$Path"; Name = "RunInvalidSignatures"; Value = "0" }
+        @{ registryPath = "$Path"; Name = "CheckExeSignatures"; Value = "yes" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Feeds"
+        @{ registryPath = "$Path"; Name = "DisableEnclosureDownload"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main"
+        @{ registryPath = "$Path"; Name = "Isolation64Bit"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "FormSuggest PW Ask"; Value = "no" }
+        @{ registryPath = "$Path"; Name = "FormSuggest Passwords"; Value = "no" }
+        @{ registryPath = "$Path"; Name = "DisableEPMCompat"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "Isolation"; Value = "PMEM" }
+    #    $Path = "HKLM:"
+
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_DISABLE_MK_PROTOCOL"
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_MIME_HANDLING"
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_MIME_SNIFFING"
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_RESTRICT_ACTIVEXINSTALL"
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1"
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_RESTRICT_FILEDOWNLOAD"
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_SECURITYBAND"
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_WINDOW_RESTRICTIONS"
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+
+    $Path = "HKLM:Software\Policies\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_ZONE_ELEVATION"
+        @{ registryPath = "$Path"; Name = "iexplore.exe"; Value = "1" }
+        # @{ registryPath = "$Path"; Name = "(RESERVED)"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "explorer.exe"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Internet Explorer\PhishingFilter"
+        @{ registryPath = "$Path"; Name = "EnabledV9"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "PreventOverride"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "PreventOverrideAppRepUnknown"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Internet Explorer\PhishingFilter"
+        @{ registryPath = "$Path"; Name = "NoCrashDetection"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Internet Explorer\Security"
+        @{ registryPath = "$Path"; Name = "DisableSecuritySettingsCheck"; Value = "0" }
+
+    $Path = "Software\Policies\Microsoft\Internet Explorer\Security\ActiveX"
+        @{ registryPath = "$Path"; Name = "BlockNonAdminActiveXInstall"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender"
+        @{ registryPath = "$Path"; Name = "PUAProtection"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\MpEnginer"
+        @{ registryPath = "$Path"; Name = "MpCloudBlockLevel"; Value = "2" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\Real-Time Protection"
+        @{ registryPath = "$Path"; Name = "DisableIOAVProtection"; Value = "0" }
+        @{ registryPath = "$Path"; Name = "DisableRealtimeMonitoring"; Value = "0" }
+        @{ registryPath = "$Path"; Name = "DisableScriptScanning"; Value = "0" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\Scan"
+        @{ registryPath = "$Path"; Name = "DisableRemovableDriveScanning"; Value = "0" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\Spynet"
+        @{ registryPath = "$Path"; Name = "DisableBlockAtFirstSeen"; Value = "0" }
+        @{ registryPath = "$Path"; Name = "SpynetReporting"; Value = "2" }
+        @{ registryPath = "$Path"; Name = "SubmitSamplesConsent"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASRt"
+        @{ registryPath = "$Path"; Name = "ExploitGuard_ASR_Rules"; Value = "1" }
+
+    $Path = "Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR\Rules"
+        @{ registryPath = "$Path"; Name = "26190899-1602-49e8-8b27-eb1d0a1ce869"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "5beb7efe-fd9a-4556-801d-275e5ffc04cc"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "3b576869-a4ec-4529-8536-b80a7769e899"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "75668c1f-73b5-4cf0-bb93-3ecf5cb7cc84"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "be9ba2d9-53ea-4cdc-84e5-9b1eeee46550"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "c1db55ab-c21a-4637-bb3f-a12568109d35"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "d3e037e1-3eb8-44c8-a917-57927947596d"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "d4f940ab-401b-4efc-aadc-ad5f3c50688a"; Value = "1" }
+        @{ registryPath = "$Path"; Name = "e6db77e5-3df2-4cf1-b95a-636979351e5b"; Value = "1" }
+
 
 
 )
