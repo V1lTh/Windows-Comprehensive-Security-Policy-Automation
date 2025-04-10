@@ -100,6 +100,11 @@ function Update-PowerShellModules {
         } catch {
             Write-Warning "[WARNING] Failed to update module '$($module.Name)': $_"
         }
+
+    <# SALIR DEL SCRIPT #>
+        "$exit" {
+            Write-Host "Saliendo..."
+            $continue = $false
     }
 
     Write-Host "[SUCCESS] All modules updated successfully." -ForegroundColor Green
