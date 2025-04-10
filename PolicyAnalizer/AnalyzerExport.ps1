@@ -226,7 +226,7 @@ function Show-Menu {
 }
 }
 # --- Ejecución inicial
-# Esta función que te he puesto aquí, funciona muy bien y es para actualizar el sistema, 
+# Esta función que te he puesto aquí, funciona muy bien y es para actualizar el sistema,
 # la dejo comentada, pero si quieres cuando la quieras usar la descomentas
 # Update-PowerShellModules
 Show-Menu
