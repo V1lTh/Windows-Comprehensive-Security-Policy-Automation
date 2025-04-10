@@ -191,6 +191,15 @@ function Remove-OldBackups {
 function Show-Menu {
     do {
         Clear-Host
+        Write-Host "===================================================" -ForegroundColor Gray
+        Write-Host "$currentPath" -ForegroundColor Gray
+        Write-Host "$lgpoExe" -ForegroundColor Gray
+        Write-Host "$policyRules" -ForegroundColor Gray
+        Write-Host "$exportDir" -ForegroundColor Gray
+        Write-Host "$splitScript" -ForegroundColor Gray
+        Write-Host "$backupDir" -ForegroundColor Gray
+        Write-Host "===================================================" -ForegroundColor Gray
+
         Write-Host "================== Gestor de Políticas Locales ==================" -ForegroundColor Cyan
         Write-Host "1. Exportar políticas locales"
         Write-Host "2. Dividir archivos .PolicyRules"
