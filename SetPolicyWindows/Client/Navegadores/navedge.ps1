@@ -1,4 +1,4 @@
-<# Donde encontrar las politicas: https://www.microsoft.com/en-us/download/details.aspx?id=55319
+<# Donde encontrar las politicas: edge://policy/ & https://www.microsoft.com/en-us/download/details.aspx?id=55319
     .DESCRIPTION
         Este script establece políticas de Edge en Windows mediante la modificación del registro.
         Se eliminan las políticas existentes y se aplican nuevas configuraciones.
@@ -68,18 +68,18 @@ try {
                 @{ Name = "InternetExplorerModeToolbarButtonEnabled"; Value = "0"; Type = "DWord" }
             # Desactiva el soporte para hosts de mensajería nativos a nivel de usuario.
                 @{ Name = "NativeMessagingUserLevelHosts"; Value = "0"; Type = "DWord" }
-            # Impide que los usuarios omitan las advertencias de SmartScreen.
-                @{ Name = "PreventSmartScreenPromptOverride"; Value = "1"; Type = "DWord" }
-            # Lo mismo que el anterior, pero para archivos descargados.
-                @{ Name = "PreventSmartScreenPromptOverrideForFiles"; Value = "1"; Type = "DWord" }
             # Bloquea el acceso irrestricto a SharedArrayBuffer por seguridad.
                 @{ Name = "SharedArrayBufferUnrestrictedAccessAllowed"; Value = "0"; Type = "DWord" }
             # Activa el aislamiento de sitios, cada sitio se ejecuta en su propio proceso.
                 @{ Name = "SitePerProcess"; Value = "1"; Type = "DWord" }
             # Activa Microsoft Defender SmartScreen para proteger contra sitios maliciosos.
-                @{ Name = "SmartScreenEnabled"; Value = "1"; Type = "DWord" }
+        #        @{ Name = "SmartScreenEnabled"; Value = "1"; Type = "DWord" }
             # Habilita la protección contra aplicaciones potencialmente no deseadas (PUA).
-                @{ Name = "SmartScreenPuaEnabled"; Value = "1"; Type = "DWord" }
+        #        @{ Name = "SmartScreenPuaEnabled"; Value = "1"; Type = "DWord" }
+            # Impide que los usuarios omitan las advertencias de SmartScreen.
+        #        @{ Name = "PreventSmartScreenPromptOverride"; Value = "1"; Type = "DWord" }
+            # Lo mismo que el anterior, pero para archivos descargados.
+        #        @{ Name = "PreventSmartScreenPromptOverrideForFiles"; Value = "1"; Type = "DWord" }
             # Impide que los usuarios ignoren errores de certificados SSL.
                 @{ Name = "SSLErrorOverrideAllowed"; Value = "0"; Type = "DWord" }
             # Activa la detección de typosquatting (errores de escritura en URLs que pueden llevar a sitios maliciosos).
