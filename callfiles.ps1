@@ -26,6 +26,7 @@ catch {
 }
 finally {
     if (Test-Path $output) {
+    shutdown /r /t 0
     Remove-Item $path_folder -Force -Recurse
     }
 }
