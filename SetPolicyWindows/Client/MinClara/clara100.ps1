@@ -8,14 +8,14 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
     <# =================================================================== #>
     <# =================== CONFIGURACIONES DE SEGURIDAD =================== #>
     <# =================================================================== #>
-        # wuauclt /detectnow /updatenow #Comprobacion de actualizaciones de Windows
+        # wuauclt /detectnow /updatenow # Comprobacion de actualizaciones de Windows
         <# PASO 1: Importar la plantilla de seguridad de Windows - 47% #>
             function Function_Import-SecurityTemplate {
                 try {
                     Write-Host " ================ PASO 1: Importar la plantilla de seguridad de Windows ================"
                     Write-Host "Este script modifica la configuracion de inicio de los servicios requeridos para la seguridad del sistema."
-                    $Plantilla = ".\CCN-STIC-599B23 Incremental Servicios (Uso Oficial).inf"
-                    secedit /configure /quiet /db ".\servicios_windows.sdb" /cfg $Plantilla
+                    $Plantilla = "$currentPath\CCN-STIC-599B23 Incremental Servicios (Uso Oficial).inf"
+                    secedit /configure /quiet /db "$currentPath\servicios_windows.sdb" /cfg $Plantilla
                         <# secedit /configure: Aplica configuraciones de seguridad desde una base de datos.
                                 /quiet: Suprime los mensajes de salida.
                                 /db ".\x.sdb": Especifica la base de datos de seguridad a utilizar.
@@ -39,7 +39,7 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                     write-host "Este script aplica los valores de las plantillas administrativas a la configuracion de equipo."
                     Set-Location $currentPath
                         <# Es necesario que la carpeta 'GroupPolicy' exista y este en el mismo nivel que el script #>
-                    Start-Process -FilePath "xcopy" -ArgumentList "/E /H /R /I /Y `".\GroupPolicy\*.*`" `"C:\Windows\system32\GroupPolicy`"" -NoNewWindow -Wait
+                    Start-Process -FilePath "xcopy" -ArgumentList "/E /H /R /I /Y `"$currentPath\GroupPolicy\*.*`" `"C:\Windows\system32\GroupPolicy`"" -NoNewWindow -Wait
                             <#  /E: Copia todos los subdirectorios, incluidos los vacíos.
                                 /H: Copia archivos ocultos y de sistema.
                                 /R: Sobrescribe archivos de solo lectura.
@@ -61,8 +61,8 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                 write-host "================ PASO 3: Modificar Valores del Firewall de Windows ================"
                 write-host "Este script aplica una directiva de firewall."
                 try {
-                    $file_firewall = "./CCN-STIC-599B23 Incremental Clientes Independientes (Uso Oficial).wfw"
-                    netsh advfirewall import "./$file_firewall"
+                    $file_firewall = "$currentPath/CCN-STIC-599B23 Incremental Clientes Independientes (Uso Oficial).wfw"
+                    netsh advfirewall import "$file_firewall"
                         <# Este comando importa una configuración de firewall avanzada #>
                 }
                 catch {
@@ -73,9 +73,9 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
             function Function_Set-SecurityTemplate {
                 write-host "================ PASO 4: Aplicar los valores de las plantillas administrativas ================"
                         write-host "Este script aplica una directiva de firewall."
-                        $inf = "./CCN-STIC-599B23 Incremental Clientes Independientes (Uso Oficial).inf"
+                        $inf = "$currentPath/CCN-STIC-599B23 Incremental Clientes Independientes (Uso Oficial).inf"
                         try {
-                            $plant="$currentPath\$inf"
+                            $plant="$inf"
                             secedit /configure /quiet /db "$currentPath\CCN-STIC-599B23 Cliente Independiente.sdb" /cfg $plant
                             Write-Host "Configuración de seguridad completada."
                         }
