@@ -8,6 +8,7 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
     <# =================================================================== #>
     <# =================== CONFIGURACIONES DE SEGURIDAD =================== #>
     <# =================================================================== #>
+        # wuauclt /detectnow /updatenow #Comprobacion de actualizaciones de Windows
         <# PASO 1: Importar la plantilla de seguridad de Windows - 47% #>
             function Function_Import-SecurityTemplate {
                 try {
@@ -345,7 +346,7 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                     Write-Host "Error al configurar la seguridad: " + $_.Exception.Message
                 }
                 # MENSAJE DE AVISO INICIO DE SESION - LOW
-                    <#
+                    
                 try {
                     $path = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
                     if (-Not (Test-Path "$path")) {
@@ -357,8 +358,7 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                 catch {
                     Write-Host "Error al configurar la seguridad: " + $_.Exception.Message
                 } 
-                    #>
-        
+                       
             }
 
             <# INICIO DE LAS FUNCIONES #>
@@ -369,7 +369,6 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
         Function_Set-ImportFirewall
         Function_Set-SecurityTemplate
         Function_Set-OtherDirectives
-        Write-Host "Terminado"
         Start-Sleep 2
         shutdown /r /t 0
     }
