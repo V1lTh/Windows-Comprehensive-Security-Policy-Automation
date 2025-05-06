@@ -353,6 +353,13 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                     }
                     Set-ItemProperty -Path "$path" -Name "legalnoticecaption" -Value " --TEXTO-- " -Type String -Force # TITULO
                     Set-ItemProperty -Path "$path" -Name "legalnoticetext" -Value " --TEXTO--  " -Type String  # RESTO DEL TEXTO
+
+                    $registryPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System"
+                    #/Comprobar si la clave de registro existe, si no, crearla
+                    if (-not (Test-Path $registryPath)) {
+                        New-Item -Path $registryPath -Force }
+                        #Establecer el valor de la clave: Configuración del equipo/Componentes de Windows/Opciones de inicio de sesión de Windows/Mostrar información acerca de inicios de sesión anteriores durante inicio de sesión de usuario
+                        Set-ItemProperty -Path $registryPath -Name 'DisplayLastLogonInfo' -Value 1 -Type DWord
                 }
                 catch {
                     Write-Host "Error al configurar la seguridad: " + $_.Exception.Message
