@@ -369,7 +369,6 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
         Function_Set-SecurityTemplate
         Function_Set-OtherDirectives
         Start-Sleep 2
-        shutdown /r /t 0
     }
     catch {
     }
