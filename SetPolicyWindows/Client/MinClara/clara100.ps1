@@ -37,7 +37,6 @@ $getversion = (Get-WmiObject -Class Win32_OperatingSystem).Caption
                 try {
                     write-host "================ PASO 2: Aplicar los valores de las plantillas administrativas ================"
                     write-host "Este script aplica los valores de las plantillas administrativas a la configuracion de equipo."
-                    Set-Location $currentPath
                         <# Es necesario que la carpeta 'GroupPolicy' exista y este en el mismo nivel que el script #>
                     Start-Process -FilePath "xcopy" -ArgumentList "/E /H /R /I /Y `"$currentPath\GroupPolicy\*.*`" `"C:\Windows\system32\GroupPolicy`"" -NoNewWindow -Wait
                             <#  /E: Copia todos los subdirectorios, incluidos los vacíos.
