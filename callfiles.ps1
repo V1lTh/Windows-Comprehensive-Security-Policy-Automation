@@ -7,7 +7,7 @@ function Save-GitHubRepository
 {
     $start_time = Get-Date
     invoke-webrequest -Uri $url -OutFile $output
-    Expand-Archive $output .\ -Force
+    Expand-Archive $output $path -Force
     Remove-Item $output -Force
     Write-Host "Time taken: $((Get-Date).Subtract($start_time).TotalSeconds) second(s)" 
 }
